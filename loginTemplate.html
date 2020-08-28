@@ -7,11 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style_ok.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/core-style.css">
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
+
+    <header class="header_area">
+        <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+            <nav class="classy-navbar" id="essenceNav">
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+                <div class="classy-menu">
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="#">Pages</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
 
     <div class="col-md-12 text-center">
         <h2>會員登入</h2>
@@ -24,12 +48,11 @@
                     <div class="form-title hidden-xs">
                         帳號
                     </div>
-                    <input type="text" name="LoginID" id="LoginID" tabindex="3" placeholder="帳號 或 EMAIL"
-                        autocomplete="on">
+                    <input type="text" name="LoginID" id="LoginID" tabindex="3" placeholder="請在此輸入帳號" autocomplete="on">
                     <div class="form-title hidden-xs">
                         密碼 <a href="login-forgot-pwd.asp">忘記密碼？</a>
                     </div>
-                    <input type="password" name="LoginPassword" id="LoginPassword" tabindex="4" placeholder="密碼">
+                    <input type="password" name="LoginPassword" id="LoginPassword" tabindex="4" placeholder="請在此輸入密碼">
                     <a class="visible-xs" href="login-forgot-pwd.asp">忘記密碼？</a>
                 </div>
 
