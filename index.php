@@ -1,6 +1,6 @@
 <?php 
 
-session_start(); // 啟動session
+session_start();
 if (isset($_SESSION["userName"])) // 判斷登入與否
   $UserName = $_SESSION["userName"];
 else 
@@ -8,36 +8,56 @@ else
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="css/style.css" rel="stylesheet">
-<title>首頁</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style_ok.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/core-style.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <title>首頁</title>
 </head>
+
 <body>
 
-<table width="300" border="0" align="center" cellpadding="7" cellspacing="0" bgcolor="#ffffff">
-  <tr>
-    <td class="title" align="center" bgcolor="#CCCCCC">會員系統 - 首頁</font></td>
-  </tr>
-  <tr>
+  <header class="header_area">
+    <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+      <nav class="classy-navbar" id="essenceNav">
+        <div class="classy-navbar-toggler">
+          <span class="navbarToggler"><span></span><span></span><span></span></span>
+        </div>
+        <div class="classy-menu">
+          <div class="classycloseIcon">
+            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+          </div>
+          <div class="classynav">
+            <ul>
+              <li><a href="index.php">首頁</a></li>
+              <li><a href="#">存款</a></li>
+              <li><a href="#">提款</a></li>
+              <li><a href="#">查詢餘額</a></li>
+              <li><a href="#">查詢明細</a></li>
+            </ul>
+          </div>
+        </div>
 
-  <?php if ($UserName == "Guest") { ?>
-    <td align="center" valign="baseline">
-      <input class="btn" type="button" onclick="javascript:location.href='login.php'" value="登入"></input>
-  <?php } else { ?>
-    <td  align="center" valign="baseline">
-      <input class="btn" type="button" onclick="javascript:location.href='login.php?logout=1'" value="登出"></input>
-  <?php } ?>
-    | <input class="btn" type="button" onclick="javascript:location.href='member.php'" value="會員專用頁"></input>
+        <div style="position: absolute; color: blue; right: 0;">
+          <div class="user-login-info">
+            <a href="login.php">登入</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-  </tr>
-  <tr>
-    <td class="welcome" align="center" bgcolor="#CCCCCC"><?php echo "Welcome! " . $UserName ?></td>
-  </tr>
-  
-</table>
+  <div class="col-md-12 text-center">
+    <h2>Hi! <?= $UserName ?> , 祝您有美好的一天</h2>
+  </div>
+
 
 </body>
+
 </html>
