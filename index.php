@@ -52,7 +52,7 @@ else
         <div class="search-area">
           <div style="float: right;">
             <div class="user-login-info">
-              <a href="#">註冊</a>
+              <a href="register.php">註冊</a>
             </div>
           </div>
           <div style="float: right;">

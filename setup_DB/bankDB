@@ -1,4 +1,4 @@
-create database bankDB default character set utf8;
+create database IF NOT EXISTS bankDB default character set utf8;
 
 use bankDB;
 
@@ -11,12 +11,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `userAccountInfo` (
   `userID` tinyint(4) unsigned zerofill NOT NULL auto_increment,
-  `userName` varchar(20) collate utf8_unicode_ci NOT NULL,
-  `userPassword` varchar(20) collate utf8_unicode_ci NOT NULL,
+  `userName` varchar(30) collate utf8_unicode_ci NOT NULL,
+  `userPassword` varchar(30) collate utf8_unicode_ci NOT NULL,
   `nickName` varchar(16) collate utf8_unicode_ci NOT NULL,
 
-  PRIMARY KEY  (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`userID`, `userName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES 
-("hank2222", "1234", "yu-lun")
+("hank2222", "12345678", "yu-lun")
