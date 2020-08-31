@@ -10,19 +10,26 @@ if (isset($_GET["logout"])) // 判斷是否有收到logout的值
 	exit();
 }
 
-if (isset($_POST["btnOK"]))
+if (isset($_POST["login"]))
 {
   $UserName = $_POST["userName"];
   $Password = $_POST["userPassword"];
 	if (trim($UserName) != "" && trim($Password) != "") // 去除前後的空白，判斷使用者名稱和密碼是否為空字串
 	{
-    $_SESSION['userName'] = $UserName; // 將使用者名稱存入session
-    header("Location: index.php");
+    // 啟動與mysql連結
+    $link = @mysqli_connect("localhost", "root", "root", null, 8889) or die(mysqli_connect_error()); // 若是XAMPP就沒有密碼
+    mysqli_query($link, "set names utf8");
+    mysqli_select_db($link, "bankDB");
+    $sqlCommand = "SELECT * FROM userAccountInfo where userName = '$UserName'";
+    $result = mysqli_query($link, $sqlCommand);
+    $row = mysqli_fetch_assoc($result);
+    mysqli_close($link);
+
+    if ($row['userName'] == $UserName && $row['userPassword'] == $Password) { // 判斷帳號密碼是否正確
+      $_SESSION['userName'] = $UserName; // 將使用者名稱存入session
+      header("Location: index.php");
+    }
   }
-  else {
-    echo "<script> alert('您的帳號或密碼忘了輸入喔！'); </script>";
-  }
-	
 }
 
 ?>
@@ -44,8 +51,9 @@ if (isset($_POST["btnOK"]))
   <header class="header_area">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
       <nav class="classy-navbar" id="essenceNav">
+        <a class="nav-brand" href="index.php"><img src="img/core-img/logo.png" alt=""></a>
         <div class="classy-navbar-toggler">
-          <span class="navbarToggler"><</span>
+          <span class="navbarToggler"><span></span><span></span><span></span></span>
         </div>
         <div class="classy-menu">
           <div class="classycloseIcon">
@@ -78,8 +86,12 @@ if (isset($_POST["btnOK"]))
           <div class="form-title hidden-xs">密碼 <a href="#">忘記密碼？</a></div>
           <input type="password" name="userPassword" id="userPassword" tabindex="4" placeholder="請在此輸入密碼">
         </div>
-        <button name="btnOK" id="btnOK" type="submit" class="plain-btn -login-btn" tabindex="5">登入</button>
+          <?php if ($row['userName'] != $UserName || $row['userPassword'] != $Password) { ?>
+          <div style="color: red;">您輸入的帳號或密碼錯誤！</div>
+          <?php } ?>
+        <button name="login" id="login" type="submit" class="plain-btn -login-btn" tabindex="5">登入</button>
       </form>
+
     </div>
   </div>
   <div class="col-md-12 text-center">

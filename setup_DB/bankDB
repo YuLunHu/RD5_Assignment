@@ -1,6 +1,6 @@
 create database bankDB default character set utf8;
 
-use weatherDB;
+use bankDB;
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -9,16 +9,14 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-CREATE TABLE IF NOT EXISTS `memberAccountInfo` (
-  `memberID` tinyint(2) unsigned zerofill NOT NULL auto_increment,
-  `cityName` varchar(10) collate utf8_unicode_ci NOT NULL,
-  `startTime` DATETIME NOT NULL,
-  `endTime` DATETIME NOT NULL,
-  `Wx` varchar(30) collate utf8_unicode_ci NOT NULL,
-  `PoP` varchar(10) collate utf8_unicode_ci NOT NULL,
-  `MinT` varchar(10) collate utf8_unicode_ci NOT NULL,
-  `MaxT` varchar(10) collate utf8_unicode_ci NOT NULL,
-  `CI` varchar(20) collate utf8_unicode_ci NOT NULL,
+CREATE TABLE IF NOT EXISTS `userAccountInfo` (
+  `userID` tinyint(4) unsigned zerofill NOT NULL auto_increment,
+  `userName` varchar(20) collate utf8_unicode_ci NOT NULL,
+  `userPassword` varchar(20) collate utf8_unicode_ci NOT NULL,
+  `nickName` varchar(16) collate utf8_unicode_ci NOT NULL,
 
-  PRIMARY KEY  (`cityName`, `startTime`)
+  PRIMARY KEY  (`userID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES 
+("hank2222", "1234", "yu-lun")
