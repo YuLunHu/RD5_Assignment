@@ -14,19 +14,22 @@ CREATE TABLE IF NOT EXISTS `userAccountInfo` (
   `userName` varchar(30) collate utf8_unicode_ci NOT NULL,
   `userPassword` varchar(30) collate utf8_unicode_ci NOT NULL,
   `nickName` varchar(16) collate utf8_unicode_ci NOT NULL,
+  `balance` DECIMAL(20,2) DEFAULT 0,
 
   PRIMARY KEY (`userID`, `userName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES 
-("hank2222", "12345678", "yu-lun")
+("hank2222", "12345678", "yu-lun");
 
 CREATE TABLE IF NOT EXISTS `transaction` (
   `tranID` tinyint(10) unsigned zerofill NOT NULL auto_increment,
   `userID` tinyint(4) unsigned zerofill NOT NULL,
   `trsansDate` DATETIME NOT NULL,
   `tranType` varchar(15) collate utf8_unicode_ci NOT NULL,
+  `beforeBalance` DECIMAL(20,2) NOT NULL,
   `trade` DECIMAL(16,2) NOT NULL,
+  `afterBalance` DECIMAL(20,2) NOT NULL,
 
   PRIMARY KEY (`tranID`), 
   FOREIGN KEY (`userID`) REFERENCES userAccountInfo(`userID`)

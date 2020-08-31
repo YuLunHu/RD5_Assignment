@@ -3,11 +3,47 @@
 session_start();
 if (isset($_SESSION["nickName"])) {  // 判斷登入與否
     $nickName = $_SESSION["nickName"];
+    $UserName = $_SESSION["userName"];
 } else {
     echo "<script> alert('請先登入以使用此功能，即將為您跳轉至登入頁'); window.location='login.php' </script>";
 }
 
+if (isset($_POST["doTrans"])) // 執行交易
+{
+  $selectTransType = $_POST["selectTransType"];
+  $trade = (int) $_POST["trade"];
 
+  require_once("connectMysql.php");
+  $sqlCommand = "SELECT `userID`, `balance` FROM `userAccountInfo` WHERE `userName` = '$UserName'";
+  $result = mysqli_query($link, $sqlCommand);
+  $row = mysqli_fetch_assoc($result);
+  $userID = $row['userID'];
+  $balance = $row['balance']; // 先查詢出帳號目前的餘額
+
+  if ($selectTransType == "deposit") {
+    // 先更新使用者帳戶資訊表內的餘額
+    $afterBalance = $balance + $trade;
+    $sqlCommand = "UPDATE `userAccountInfo` SET `balance` = '$afterBalance' WHERE `userName` = '$UserName'";
+    $result = mysqli_query($link, $sqlCommand);
+    $datetime = date("Y-m-d H:i:s", mktime(date('H')+8, date('i'), date('s'), date('m'), date('d'), date('Y')));
+
+    // 再將本次交易新增明細
+    $sqlCommand = "INSERT INTO `transaction` 
+    (`userID`, `trsansDate`, `tranType`, `beforeBalance`, `trade`, `afterBalance`) VALUES 
+    ('$userID', '$datetime', '$selectTransType', '$balance', '$trade', '$afterBalance')";
+    $result = mysqli_query($link, $sqlCommand);
+
+    if ($result) {
+      echo "<script> alert('存款完成，本次交易明細如下'); window.location='transaction.php' </script>";
+    } else {
+      die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
+    }
+  }
+  else {
+    echo "$balance";
+  }
+  mysqli_close($link);
+}
 
 ?>
 
@@ -81,15 +117,14 @@ if (isset($_SESSION["nickName"])) {  // 判斷登入與否
         <div class="form-group row">
           <label class="col-5 col-form-label" for="selectTransType" style="font-size: 20px;">請選擇:</label>
           <select id="selectTransType" name="selectTransType">
-            <option value="">--</option>
             <option value="deposit">存款</option>
-            <option value="withdrawal">提款</option>
+            <option value="withdraw">提款</option>
           </select>
         </div>
 
         <div class="login-form clearfix">
           <div class="form-title hidden-xs">金額</div>
-          <input type="number" name="trade" id="trade" tabindex="1" placeholder="請在此輸入交易金額" required>
+          <input type="text" name="trade" id="trade" pattern="^[0-9]*[1-9][0-9]*$" required tabindex="1" placeholder="請在此輸入交易金額">
 
           <button name="doTrans" id="doTrans" type="submit" class="plain-btn -login-btn" tabindex="2">執行交易</button>
       </form>

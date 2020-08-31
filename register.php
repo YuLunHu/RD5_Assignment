@@ -21,7 +21,7 @@ if (isset($_POST["register"]))
       mysqli_close($link);
 
       if ($result) {
-        echo "<script> alert('註冊成功，即將為您跳轉至登入頁'); window.location='Login.php' </script>";
+        echo "<script> alert('註冊成功，即將為您跳轉至登入頁'); window.location='login.php' </script>";
       } else {
         die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
       }
@@ -85,7 +85,7 @@ if (isset($_POST["register"]))
           <input type="password" name="userPassword" id="userPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="2"
             placeholder="請設定密碼">
           <div class="form-title hidden-xs">密碼確認</div>
-          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,}" required tabindex="3"
+          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="3"
             placeholder="請再輸入一次密碼">
           <div class="form-title hidden-xs">暱稱</div>
           <input type="text" name="nickName" id="nickName" tabindex="4" placeholder="請在此輸入您的暱稱" required>
