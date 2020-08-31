@@ -12,10 +12,11 @@ if (isset($_POST["register"]))
 
     $sqlCommand = "SELECT * FROM `userAccountInfo` WHERE `userName` = '$UserName'";
     $result = mysqli_query($link, $sqlCommand);
+    $row = mysqli_fetch_assoc($result);
 
-    if ($row = mysqli_fetch_assoc($result)) { // 驗證該帳號是否已存在
+    if ($row['userName']) { // 驗證該帳號是否已存在
       echo "<script> alert('該帳號已被使用！') </script>";
-    } else {
+    } else { // 表示要註冊的帳號無人使用，可以註冊
       $sqlCommand = "INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES ('$UserName', '$Password', '$nickName')";
       $result = mysqli_query($link, $sqlCommand);
       mysqli_close($link);

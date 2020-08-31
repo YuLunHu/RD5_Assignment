@@ -17,10 +17,10 @@ if (isset($_POST["doTrans"])) // 執行交易
   $sqlCommand = "SELECT `userID`, `balance` FROM `userAccountInfo` WHERE `userName` = '$UserName'";
   $result = mysqli_query($link, $sqlCommand);
   $row = mysqli_fetch_assoc($result);
-  $userID = $row['userID'];
-  $balance = $row['balance']; // 先查詢出帳號目前的餘額
+  $userID = $row['userID']; // 帳戶編號
+  $balance = $row['balance']; // 帳戶餘額
 
-  if ($selectTransType == "deposit") {
+  if ($selectTransType == "deposit") { // 存款功能 <--------------------
     // 先更新使用者帳戶資訊表內的餘額
     $afterBalance = $balance + $trade;
     $sqlCommand = "UPDATE `userAccountInfo` SET `balance` = '$afterBalance' WHERE `userName` = '$UserName'";
@@ -35,12 +35,35 @@ if (isset($_POST["doTrans"])) // 執行交易
 
     if ($result) {
       echo "<script> alert('存款完成，本次交易明細如下'); window.location='transaction.php' </script>";
+      // --------------這邊要做顯示明細的功能-----------------
     } else {
       die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
     }
   }
-  else {
-    echo "$balance";
+  else { // 提款功能 <--------------------
+    // echo "目前餘額：$balance<br>";
+    $afterBalance = $balance - $trade;
+    if ($afterBalance >= 0) {
+      $sqlCommand = "UPDATE `userAccountInfo` SET `balance` = '$afterBalance' WHERE `userName` = '$UserName'";
+      $result = mysqli_query($link, $sqlCommand);
+      $datetime = date("Y-m-d H:i:s", mktime(date('H')+8, date('i'), date('s'), date('m'), date('d'), date('Y')));
+      
+      // 再將本次交易新增明細
+      $sqlCommand = "INSERT INTO `transaction` 
+      (`userID`, `trsansDate`, `tranType`, `beforeBalance`, `trade`, `afterBalance`) VALUES 
+      ('$userID', '$datetime', '$selectTransType', '$balance', '$trade', '$afterBalance')";
+      $result = mysqli_query($link, $sqlCommand);
+
+      if ($result) {
+        echo "<script> alert('提款完成，本次交易明細如下'); window.location='transaction.php' </script>";
+        // --------------這邊要做顯示明細的功能-----------------
+      } else {
+        die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
+      }
+    }
+    else {
+      echo "<script> alert('交易失敗！餘額不足'); window.location='transaction.php' </script>";
+    }
   }
   mysqli_close($link);
 }
