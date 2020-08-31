@@ -20,3 +20,14 @@ CREATE TABLE IF NOT EXISTS `userAccountInfo` (
 
 INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES 
 ("hank2222", "12345678", "yu-lun")
+
+CREATE TABLE IF NOT EXISTS `transaction` (
+  `tranID` tinyint(10) unsigned zerofill NOT NULL auto_increment,
+  `userID` tinyint(4) unsigned zerofill NOT NULL,
+  `trsansDate` DATETIME NOT NULL,
+  `tranType` varchar(15) collate utf8_unicode_ci NOT NULL,
+  `trade` DECIMAL(16,2) NOT NULL,
+
+  PRIMARY KEY (`tranID`), 
+  FOREIGN KEY (`userID`) REFERENCES userAccountInfo(`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

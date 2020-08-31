@@ -11,3 +11,11 @@
     /* ---------------------------------------
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
+    .form-group {
+        text-align: right; 
+        padding: 15px 10px; 
+        font-family:"Microsoft JhengHei", "sans-serif";
+    }
+    .btn {
+        margin: 0px 10px;
+    }

@@ -1,7 +1,5 @@
 <?php 
 
-session_start();
-
 if (isset($_POST["register"]))
 {
   $UserName = $_POST["userName"];
@@ -9,7 +7,7 @@ if (isset($_POST["register"]))
   $confirmPassword = $_POST["confirmPassword"];
   $nickName = $_POST["nickName"];
   
-  if ($Password == $confirmPassword) {
+  if ($Password == $confirmPassword) { // 檢查使用者輸入的兩次密碼是否相同
     require_once("connectMysql.php");
 
     $sqlCommand = "SELECT * FROM `userAccountInfo` WHERE `userName` = '$UserName'";
@@ -17,18 +15,15 @@ if (isset($_POST["register"]))
 
     if ($row = mysqli_fetch_assoc($result)) { // 驗證該帳號是否已存在
       echo "<script> alert('該帳號已被使用！') </script>";
-    }
-    else {
+    } else {
       $sqlCommand = "INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES ('$UserName', '$Password', '$nickName')";
       $result = mysqli_query($link, $sqlCommand);
       mysqli_close($link);
 
       if ($result) {
-        echo "<script> alert('註冊成功，即將為您跳轉至首頁') </script>";
-        // header("Location: index.php");
-      }
-      else {
-        die('Error: ' . mysql_error());//如果sql執行失敗輸出錯誤
+        echo "<script> alert('註冊成功，即將為您跳轉至登入頁'); window.location='Login.php' </script>";
+      } else {
+        die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
       }
     }
   }
@@ -85,19 +80,18 @@ if (isset($_POST["register"]))
       <form method="post" class="ng-pristine ng-valid">
         <div class="login-form clearfix">
           <div class="form-title hidden-xs">帳號</div>
-          <input type="text" name="userName" id="userName" tabindex="3" placeholder="請設定帳號" required>
+          <input type="text" name="userName" id="userName" tabindex="1" placeholder="請設定帳號" required>
           <div class="form-title hidden-xs">密碼<a>（格式：需為8~12個字以上的英文或數字）</a></div>
-          <input type="password" name="userPassword" id="userPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="4"
+          <input type="password" name="userPassword" id="userPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="2"
             placeholder="請設定密碼">
           <div class="form-title hidden-xs">密碼確認</div>
-          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,}" require tabindex="4"
+          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,}" required tabindex="3"
             placeholder="請再輸入一次密碼">
           <div class="form-title hidden-xs">暱稱</div>
-          <input type="text" name="nickName" id="nickName" tabindex="3" placeholder="請在此輸入您的暱稱" required>
+          <input type="text" name="nickName" id="nickName" tabindex="4" placeholder="請在此輸入您的暱稱" required>
         </div>
         <button name="register" id="register" type="submit" class="plain-btn -login-btn" tabindex="5">註冊</button>
       </form>
-
     </div>
   </div>
 

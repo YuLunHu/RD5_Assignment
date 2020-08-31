@@ -4,9 +4,9 @@ session_start();
 if (isset($_GET["logout"])) // 判斷是否有收到logout的值
 {
   unset($_SESSION["userName"]); // 若有則代表使用者登出，將session清除
-  
-  $_SESSION['userName'] = "Guest"; // 回歸訪客的身份
-	header("Location: index.php"); // 重導回首頁
+  unset($_SESSION["nickName"]);
+
+  echo "<script> alert('登出成功，即將為您跳轉回首頁'); window.location='index.php' </script>";
 	exit();
 }
 
@@ -24,7 +24,8 @@ if (isset($_POST["login"]))
 
     if ($row['userName'] == $UserName && $row['userPassword'] == $Password) { // 判斷帳號密碼是否正確
       $_SESSION['userName'] = $UserName; // 將使用者名稱存入session
-      header("Location: index.php");
+      $_SESSION['nickName'] = $row['nickName'];
+      echo "<script> alert('登入成功，即將為您跳轉至首頁'); window.location='index.php' </script>";
     }
   }
   else {
@@ -80,16 +81,15 @@ if (isset($_POST["login"]))
       <form method="post" class="ng-pristine ng-valid">
         <div class="login-form clearfix">
           <div class="form-title hidden-xs">帳號</div>
-          <input type="text" name="userName" id="userName" tabindex="3" placeholder="請在此輸入帳號" autocomplete="on">
+          <input type="text" name="userName" id="userName" tabindex="3" placeholder="請在此輸入帳號" autocomplete="on" required>
           <div class="form-title hidden-xs">密碼 <a href="#">忘記密碼？</a></div>
-          <input type="password" name="userPassword" id="userPassword" tabindex="4" placeholder="請在此輸入密碼">
+          <input type="password" name="userPassword" id="userPassword" tabindex="4" placeholder="請在此輸入密碼" required>
         </div>
         <?php if ($row['userName'] != $UserName || $row['userPassword'] != $Password) { ?>
         <div style="color: red;">您輸入的帳號或密碼錯誤！</div>
         <?php } ?>
         <button name="login" id="login" type="submit" class="plain-btn -login-btn" tabindex="5">登入</button>
       </form>
-
     </div>
   </div>
   
