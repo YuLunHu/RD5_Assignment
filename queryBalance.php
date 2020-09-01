@@ -1,24 +1,27 @@
-<?php 
+<?php
 
 session_start();
-if (isset($_SESSION["nickName"])) // 判斷登入與否
-  $nickName = $_SESSION["nickName"];
-else 
-  $nickName = "Guest"; // session中沒有使用者名稱即為Guest
+
+if (isset($_SESSION["nickName"])) {  // 判斷登入與否
+    $nickName = $_SESSION["nickName"];
+    $UserName = $_SESSION["userName"];
+} else {
+    echo "<script> alert('請先登入以使用此功能，即將為您跳轉至登入頁'); window.location='login.php' </script>";
+}
+
+// 在這裡寫查詢餘額
 
 ?>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-  <title>首頁</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style_ok.css" rel="stylesheet">
   <link rel="stylesheet" href="css/core-style.css">
-  <link rel="stylesheet" href="style.css">
+  <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>查詢餘額</title>
 
 </head>
 
@@ -68,10 +71,12 @@ else
     </div>
   </header>
 
+  
+  <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
+  <h2 style="margin-left: 70px"> <?= $nickName ?> , 您的帳戶可用餘額為：</h2>
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
 
-  <h2 style="margin-left: 70px">Hi! <?= $nickName ?> , 祝您有美好的一天</h2>
-
+  
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>

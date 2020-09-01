@@ -17,15 +17,15 @@ if (isset($_POST["query"]))
 
 require_once("connectMysql.php");
 
-if ($startDate == $endDate) { // 若開始和結束都選擇一樣表示要查那天的資料
+if ($startDate == $endDate) { // 若開始和結束都選擇一樣表示要查那天的資料，改語法用LIKE
     $sqlCommand = "SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
     (SELECT `userID` FROM `userAccountInfo` WHERE `userName` = '$UserName')) as T
-    WHERE T.trsansTime LIKE '$startDate%'";
+    WHERE T.trsansTime LIKE '$startDate%' ORDER BY T.trsansTime DESC";
 }
 else {
     $sqlCommand = "SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
     (SELECT `userID` FROM `userAccountInfo` WHERE `userName` = '$UserName')) as T
-    WHERE T.trsansTime BETWEEN '$startDate' AND '$endDate'";
+    WHERE T.trsansTime BETWEEN '$startDate' AND (SELECT date_sub('$endDate',interval -1 day)) ORDER BY T.trsansTime DESC";
 }
 
 $result = mysqli_query($link, $sqlCommand);
@@ -63,7 +63,7 @@ mysqli_close($link);
             <ul>
               <li><a href="index.php">首頁</a></li>
               <li><a href="transaction.php">存/提款</a></li>
-              <li><a href="#">查詢餘額</a></li>
+              <li><a href="queryBalance.php">查詢餘額</a></li>
               <li><a href="queryDetails.php">查詢明細</a></li>
             </ul>
           </div>
@@ -93,7 +93,7 @@ mysqli_close($link);
 
   
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
-  <h2 style="margin-left: 70px"> <?= $nickName ?> , 請選擇您希望查詢的區間</h2>
+  <h2 style="margin-left: 70px"> <?= $nickName ?> , 以下為歷史交易明細，或是您可以選擇查詢的區間</h2>
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
 
   <div class="col-md-12">
@@ -111,10 +111,7 @@ mysqli_close($link);
     </div>
   </div>
 
-  <div style="position=absoulte">
-      
-  </div>
-  
+  <?php if (($result->num_rows) != 0) { ?>
 
   <div id="queryTable">
     <table class="table table-striped version_5 href-tr" id="sortTable">
@@ -142,6 +139,10 @@ mysqli_close($link);
       </tbody>
     </table>
   </div>
+
+  <?php } else { ?>
+    <div class="col-md-12 text-center" style="color: red;">您選擇的區間查無資料！</div>
+  <?php } ?>
 
 
   <script src="js/jquery/jquery-2.2.4.min.js"></script>

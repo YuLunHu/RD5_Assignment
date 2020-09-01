@@ -68,7 +68,7 @@ if (isset($_POST["doTrans"])) // 執行交易
             <ul>
               <li><a href="index.php">首頁</a></li>
               <li><a href="transaction.php">存/提款</a></li>
-              <li><a href="#">查詢餘額</a></li>
+              <li><a href="queryBalance.php">查詢餘額</a></li>
               <li><a href="queryDetails.php">查詢明細</a></li>
             </ul>
           </div>
