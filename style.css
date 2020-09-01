@@ -25,17 +25,16 @@
     }
 
     .hide {
-        background:url(img/core-img/logo.png) 0 0 no-repeat; 
-        opacity: 0.0;
-        /* display:block;
+        /* background:url(img/core-img/logo.png) 0 0 no-repeat; 
+        display:block;
         width:100px;
         height:25px; 
         font-size:0;
         line-height:0;
         text-indent:-5000px;
-        overflow:hidden; */
+        overflow:hidden;
         cursor:pointer;
-        cursor:hand;
-        
+        cursor:hand; */
+        visibility:hidden;
     }
     

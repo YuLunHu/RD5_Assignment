@@ -83,12 +83,19 @@ $balance = $row['balance'];
 
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
   <h2 style="margin-left: 70px"> <?= $nickName ?> , 您的帳戶可用餘額為：</h2>
-  <h2 style="text-align:center;" id="balance" name="balance" class="dollars"><?= $balance ?></h2>
+  <div>
+    <h2 style="text-align:center;" id="balance" name="balance" class="dollars"><?= $balance ?></h2>
+    <div style="vertical-align:middle">
+    <p>目前餘額</p>
+    <img style="display:block; margin:auto;" src="img/core-img/logo.png" alt="">
+  </div>
+  </div>
+  
 
   <script>
   
   let N = 0;
-  $(document).ready(function() { // 點按金額可以屏蔽或顯示
+  $(document).ready(function() { // 點按金額可以屏蔽或顯示 <------改到這裡
     $("#balance").on('click', function() {
       N++;
       if (N % 2 == 1) {
