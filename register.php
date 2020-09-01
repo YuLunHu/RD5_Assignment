@@ -15,7 +15,7 @@ if (isset($_POST["register"]))
     $row = mysqli_fetch_assoc($result);
 
     if ($row['userName']) { // 驗證該帳號是否已存在
-      echo "<script> alert('該帳號已被使用！') </script>";
+      echo "<script> alert('帳號已存在，請設定其他帳號') </script>";
     } else { // 表示要註冊的帳號無人使用，可以註冊
       $sqlCommand = "INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES ('$UserName', '$Password', '$nickName')";
       $result = mysqli_query($link, $sqlCommand);

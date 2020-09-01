@@ -1,24 +1,24 @@
-<?php 
+<?php
 
 session_start();
-if (isset($_SESSION["nickName"])) // 判斷登入與否
-  $nickName = $_SESSION["nickName"];
-else 
-  $nickName = "Guest"; // session中沒有使用者名稱即為Guest
+if (isset($_SESSION["nickName"])) {  // 判斷登入與否
+    $nickName = $_SESSION["nickName"];
+    $UserName = $_SESSION["userName"];
+} else {
+    echo "<script> alert('請先登入以使用此功能，即將為您跳轉至登入頁'); window.location='login.php' </script>";
+}
 
 ?>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-  <title>首頁</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style_ok.css" rel="stylesheet">
   <link rel="stylesheet" href="css/core-style.css">
-  <link rel="stylesheet" href="style.css">
+  <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>本次交易明細</title>
 
 </head>
 
@@ -69,8 +69,37 @@ else
   </header>
 
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
+  <h2 style="margin-left: 70px"> <?= $nickName ?> , 您的本次交易明細如下：</h2>
+  <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
 
-  <h2 style="margin-left: 70px">Hi! <?= $nickName ?> , 祝您有美好的一天</h2>
+
+  <div id="queryTable">
+    <table class="table table-striped version_5 href-tr" id="sortTable">
+
+      <thead>
+        <tr>
+          <th scope="col" id="nickName" class="height-100">帳戶暱稱</th>
+          <th scope="col" id="transID">交易編號</th>
+          <th scope="col" id="trsansTime">交易時間</th>
+          <th scope="col" id="beforeBalance">交易前餘額</th>
+          <th scope="col" id="trade">本次交易金額</th>
+          <th scope="col" id="afterBalance">交易後餘額</th>
+        </tr>
+      </thead>
+
+      <tbody id="queryResult">
+        <tr>
+          <th scope="col" id="nickName" class="height-100"><?= $nickName ?></th>
+          <th scope="col" id="transID"><?= $_SESSION['transID'] ?></th>
+          <th scope="col" id="trsansTime"><?= $_SESSION['datetime'] ?></th>
+          <th scope="col" id="beforeBalance"><?= $_SESSION['beforeBalance'] ?></th>
+          <th scope="col" id="trade"><?= $_SESSION['trade'] ?></th>
+          <th scope="col" id="afterBalance"><?= $_SESSION['afterBalance'] ?></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/popper.min.js"></script>
@@ -82,3 +111,13 @@ else
 </body>
 
 </html>
+
+<?php
+// 顯示完資料後清除SESSION
+unset($_SESSION['transID']);
+unset($_SESSION['datetime']);
+unset($_SESSION['beforeBalance']);
+unset($_SESSION['trade']);
+unset($_SESSION['afterBalance']);
+
+?>

@@ -23,10 +23,10 @@ INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES
 ("hank2222", "12345678", "yu-lun");
 
 CREATE TABLE IF NOT EXISTS `transaction` (
-  `tranID` tinyint(10) unsigned zerofill NOT NULL auto_increment,
+  `transID` tinyint(10) unsigned zerofill NOT NULL auto_increment,
   `userID` tinyint(4) unsigned zerofill NOT NULL,
-  `trsansDate` DATETIME NOT NULL,
-  `tranType` varchar(15) collate utf8_unicode_ci NOT NULL,
+  `trsansTime` DATETIME NOT NULL,
+  `transType` varchar(15) collate utf8_unicode_ci NOT NULL,
   `beforeBalance` DECIMAL(20,2) NOT NULL,
   `trade` DECIMAL(16,2) NOT NULL,
   `afterBalance` DECIMAL(20,2) NOT NULL,
@@ -34,3 +34,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`tranID`), 
   FOREIGN KEY (`userID`) REFERENCES userAccountInfo(`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
+(SELECT `userID` FROM `userAccountInfo` WHERE `userName` = 'hank2222')) as T
+WHERE T.trsansTime BETWEEN '2020-08-31' AND '2020-08-31'

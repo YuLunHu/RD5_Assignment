@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 session_start();
+
 if (isset($_SESSION["nickName"])) {  // 判斷登入與否
     $nickName = $_SESSION["nickName"];
     $UserName = $_SESSION["userName"];
@@ -8,33 +9,27 @@ if (isset($_SESSION["nickName"])) {  // 判斷登入與否
     echo "<script> alert('請先登入以使用此功能，即將為您跳轉至登入頁'); window.location='login.php' </script>";
 }
 
-if (isset($_POST["doTrans"])) // 執行交易
+if (isset($_POST["query"]))
 {
-  $selectTransType = $_POST["selectTransType"];
-  $trade = (int) $_POST["trade"];
-
-  require_once("connectMysql.php");
-  $sqlCommand = "SELECT `userID`, `balance` FROM `userAccountInfo` WHERE `userName` = '$UserName'";
-  $result = mysqli_query($link, $sqlCommand);
-  $row = mysqli_fetch_assoc($result);
-  $userID = $row['userID']; // 帳戶編號
-  $balance = $row['balance']; // 帳戶餘額
-
-  if ($selectTransType == "deposit") { // 存款功能 <--------------------
-    $afterBalance = $balance + $trade;
-    require_once("insertTrans.php");
-  }
-  else { // 提款功能 <--------------------
-    $afterBalance = $balance - $trade;
-    if ($afterBalance >= 0) {
-      require_once("insertTrans.php");
-    }
-    else {
-      echo "<script> alert('交易失敗！餘額不足'); window.location='transaction.php' </script>";
-    }
-  }
-  mysqli_close($link);
+    $startDate = $_POST["startDate"];
+    $endDate = $_POST["endDate"];
 }
+
+require_once("connectMysql.php");
+
+if ($startDate == $endDate) { // 若開始和結束都選擇一樣表示要查那天的資料
+    $sqlCommand = "SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
+    (SELECT `userID` FROM `userAccountInfo` WHERE `userName` = '$UserName')) as T
+    WHERE T.trsansTime LIKE '$startDate%'";
+}
+else {
+    $sqlCommand = "SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
+    (SELECT `userID` FROM `userAccountInfo` WHERE `userName` = '$UserName')) as T
+    WHERE T.trsansTime BETWEEN '$startDate' AND '$endDate'";
+}
+
+$result = mysqli_query($link, $sqlCommand);
+mysqli_close($link);
 
 ?>
 
@@ -46,7 +41,7 @@ if (isset($_POST["doTrans"])) // 執行交易
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="style.css">
-  <title>交易</title>
+  <title>查詢明細</title>
 
 </head>
 
@@ -96,30 +91,58 @@ if (isset($_POST["doTrans"])) // 執行交易
     </div>
   </header>
 
+  
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
-  <h2 style="margin-left: 70px">Hi! <?= $nickName ?> , 今天想來點什麼交易呢？</h2>
+  <h2 style="margin-left: 70px"> <?= $nickName ?> , 請選擇您希望查詢的區間</h2>
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
 
   <div class="col-md-12">
     <div class="login-area add-mobile-gutter">
       <form method="POST" class="ng-pristine ng-valid">
-
-        <div class="form-group row">
-          <label class="col-5 col-form-label" for="selectTransType" style="font-size: 20px;">請選擇:</label>
-          <select id="selectTransType" name="selectTransType">
-            <option value="deposit">存款</option>
-            <option value="withdraw">提款</option>
-          </select>
-        </div>
-
         <div class="login-form clearfix">
-          <div class="form-title hidden-xs">金額</div>
-          <input type="text" name="trade" id="trade" pattern="^[0-9]*[1-9][0-9]*$" required tabindex="1" placeholder="請在此輸入交易金額">
 
-          <button name="doTrans" id="doTrans" type="submit" class="plain-btn -login-btn" tabindex="2">執行交易</button>
+          <div class="form-title hidden-xs">開始日期</div>
+          <input type="date" name="startDate" id="startDate" tabindex="1">
+          <div class="form-title hidden-xs">結束日期</div>
+          <input type="date" name="endDate" id="endDate"  tabindex="2">
+
+          <button name="query" id="query" type="submit" class="plain-btn -login-btn" tabindex="3">查詢</button>
       </form>
     </div>
   </div>
+
+  <div style="position=absoulte">
+      
+  </div>
+  
+
+  <div id="queryTable">
+    <table class="table table-striped version_5 href-tr" id="sortTable">
+
+      <thead>
+        <tr>
+          <th scope="col" id="transID" class="height-100">交易編號</th>
+          <th scope="col" id="trsansTime">交易時間</th>
+          <th scope="col" id="beforeBalance">交易前餘額</th>
+          <th scope="col" id="trade">本次交易金額</th>
+          <th scope="col" id="afterBalance">交易後餘額</th>
+        </tr>
+      </thead>
+
+      <tbody id="queryResult">
+      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <tr>
+          <th scope="col" id="transID" class="height-100"><?= $row['transID'] ?></th>
+          <th scope="col" id="trsansTime"><?= $row['trsansTime'] ?></th>
+          <th scope="col" id="beforeBalance"><?= $row['beforeBalance'] ?></th>
+          <th scope="col" id="trade"><?= $row['trade'] ?></th>
+          <th scope="col" id="afterBalance"><?= $row['afterBalance'] ?></th>
+        </tr>
+      <?php } ?>
+      </tbody>
+    </table>
+  </div>
+
 
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/popper.min.js"></script>
