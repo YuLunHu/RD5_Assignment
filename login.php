@@ -22,7 +22,7 @@ if (isset($_POST["login"]))
     $row = mysqli_fetch_assoc($result);
     mysqli_close($link);
 
-    if ($row['userName'] == $UserName && $row['userPassword'] == $Password) { // 判斷帳號密碼是否正確
+    if ($row['userName'] == $UserName && password_verify($Password, $row['userPassword'])) { // 判斷帳號密碼是否正確
       $_SESSION['userName'] = $UserName; // 將使用者名稱存入session
       $_SESSION['nickName'] = $row['nickName'];
       echo "<script> alert('登入成功，即將為您跳轉至首頁'); window.location = 'index.php' </script>";

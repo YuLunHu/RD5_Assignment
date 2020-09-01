@@ -18,6 +18,8 @@ if (isset($_POST["register"]))
   // }
   
   if ($Password == $confirmPassword) { // 檢查使用者輸入的兩次密碼是否相同
+    $Password = password_hash($Password, PASSWORD_DEFAULT); // 密碼加密
+
     require_once("connectMysql.php");
 
     $sqlCommand = "SELECT * FROM `userAccountInfo` WHERE `userName` = '$UserName'";
