@@ -9,9 +9,18 @@ if (isset($_SESSION["nickName"])) {  // 判斷登入與否
     echo "<script> alert('請先登入以使用此功能，即將為您跳轉至登入頁'); window.location='login.php' </script>";
 }
 
-// 在這裡寫查詢餘額
+require_once("connectMysql.php");
+
+$sqlCommand = "SELECT `balance` FROM `userAccountInfo` WHERE `userName` = '$UserName'";
+$result = mysqli_query($link, $sqlCommand);
+mysqli_close($link);
+$row = mysqli_fetch_assoc($result);
+$balance = $row['balance'];
 
 ?>
+
+<!DOCTYPE html>
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -71,12 +80,37 @@ if (isset($_SESSION["nickName"])) {  // 判斷登入與否
     </div>
   </header>
 
-  
+
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
   <h2 style="margin-left: 70px"> <?= $nickName ?> , 您的帳戶可用餘額為：</h2>
-  <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
+  <h2 style="text-align:center;" id="balance" name="balance" class="dollars"><?= $balance ?></h2>
 
+  <script>
   
+  let N = 0;
+  $(document).ready(function() { // 點按金額可以屏蔽或顯示
+    $("#balance").on('click', function() {
+      N++;
+      if (N % 2 == 1) {
+        $(this).removeClass("dollars");
+        $(this).addClass("hide");
+      }
+      else {
+        $(this).removeClass("hide");
+        $(this).addClass("dollars");
+      }
+    });
+  });
+
+  // function numberWithCommas(x) { // 將餘額以逗號分隔 <-------------------還沒接上去
+  //   var parts = x.toString().split(".");
+  //   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  //   return parts.join(".");
+  // }
+
+  </script>
+
+
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>

@@ -119,5 +119,4 @@ unset($_SESSION['datetime']);
 unset($_SESSION['beforeBalance']);
 unset($_SESSION['trade']);
 unset($_SESSION['afterBalance']);
-
 ?>

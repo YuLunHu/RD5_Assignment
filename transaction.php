@@ -30,13 +30,15 @@ if (isset($_POST["doTrans"])) // 執行交易
       require_once("insertTrans.php");
     }
     else {
-      echo "<script> alert('交易失敗！餘額不足'); window.location='transaction.php' </script>";
+      echo "<script> alert('交易失敗！餘額不足'); window.location = 'transaction.php' </script>";
     }
   }
   mysqli_close($link);
 }
 
 ?>
+<!DOCTYPE html>
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -114,7 +116,8 @@ if (isset($_POST["doTrans"])) // 執行交易
 
         <div class="login-form clearfix">
           <div class="form-title hidden-xs">金額</div>
-          <input type="text" name="trade" id="trade" pattern="^[0-9]*[1-9][0-9]*$" required tabindex="1" placeholder="請在此輸入交易金額">
+          <input type="text" name="trade" id="trade" pattern="^[0-9]*[1-9][0-9]*$" required tabindex="1"
+            placeholder="請在此輸入交易金額">
 
           <button name="doTrans" id="doTrans" type="submit" class="plain-btn -login-btn" tabindex="2">執行交易</button>
       </form>

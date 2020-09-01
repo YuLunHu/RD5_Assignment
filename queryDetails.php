@@ -33,6 +33,9 @@ mysqli_close($link);
 
 ?>
 
+<!DOCTYPE html>
+<html>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -91,7 +94,7 @@ mysqli_close($link);
     </div>
   </header>
 
-  
+
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
   <h2 style="margin-left: 70px"> <?= $nickName ?> , 以下為歷史交易明細，或是您可以選擇查詢的區間</h2>
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
@@ -104,7 +107,7 @@ mysqli_close($link);
           <div class="form-title hidden-xs">開始日期</div>
           <input type="date" name="startDate" id="startDate" tabindex="1">
           <div class="form-title hidden-xs">結束日期</div>
-          <input type="date" name="endDate" id="endDate"  tabindex="2">
+          <input type="date" name="endDate" id="endDate" tabindex="2">
 
           <button name="query" id="query" type="submit" class="plain-btn -login-btn" tabindex="3">查詢</button>
       </form>
@@ -127,7 +130,7 @@ mysqli_close($link);
       </thead>
 
       <tbody id="queryResult">
-      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
         <tr>
           <th scope="col" id="transID" class="height-100"><?= $row['transID'] ?></th>
           <th scope="col" id="trsansTime"><?= $row['trsansTime'] ?></th>
@@ -135,13 +138,13 @@ mysqli_close($link);
           <th scope="col" id="trade"><?= $row['trade'] ?></th>
           <th scope="col" id="afterBalance"><?= $row['afterBalance'] ?></th>
         </tr>
-      <?php } ?>
+        <?php } ?>
       </tbody>
     </table>
   </div>
 
   <?php } else { ?>
-    <div class="col-md-12 text-center" style="color: red;">您選擇的區間查無資料！</div>
+  <div class="col-md-12 text-center" style="color: red;">您選擇的區間查無資料！</div>
   <?php } ?>
 
 

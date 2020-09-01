@@ -2,10 +2,20 @@
 
 if (isset($_POST["register"]))
 {
-  $UserName = $_POST["userName"];
+  $UserName = (string) $_POST["userName"];
   $Password = $_POST["userPassword"];
   $confirmPassword = $_POST["confirmPassword"];
   $nickName = $_POST["nickName"];
+
+  // php端驗證資料格式是否正確 <-----------還沒改好
+  // $pattern = "[a-zA-Z0-9]{8,12}";
+  // echo strlen($UserName);
+  // if (preg_match_all($pattern, $UserName)) {
+  //   echo "符合";
+  // }
+  // else {
+  //   echo "不符合";
+  // }
   
   if ($Password == $confirmPassword) { // 檢查使用者輸入的兩次密碼是否相同
     require_once("connectMysql.php");
@@ -22,7 +32,7 @@ if (isset($_POST["register"]))
       mysqli_close($link);
 
       if ($result) {
-        echo "<script> alert('註冊成功，即將為您跳轉至登入頁'); window.location='login.php' </script>";
+        echo "<script> alert('註冊成功，即將為您跳轉至登入頁'); window.location = 'login.php' </script>";
       } else {
         die('Error: ' . mysql_error()); //如果sql執行失敗輸出錯誤
       }
@@ -35,6 +45,7 @@ if (isset($_POST["register"]))
 
 ?>
 
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -80,14 +91,14 @@ if (isset($_POST["register"]))
     <div class="login-area add-mobile-gutter">
       <form method="post" class="ng-pristine ng-valid">
         <div class="login-form clearfix">
-          <div class="form-title hidden-xs">帳號</div>
-          <input type="text" name="userName" id="userName" tabindex="1" placeholder="請設定帳號" required>
+          <div class="form-title hidden-xs">帳號<a>（格式：需為8~12個字以上的英文或數字）</a></div>
+          <input type="text" name="userName" id="userName" pattern="[a-zA-Z0-9]{8,12}" tabindex="1" placeholder="請設定帳號" required>
           <div class="form-title hidden-xs">密碼<a>（格式：需為8~12個字以上的英文或數字）</a></div>
           <input type="password" name="userPassword" id="userPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="2"
             placeholder="請設定密碼">
           <div class="form-title hidden-xs">密碼確認</div>
-          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,12}" required tabindex="3"
-            placeholder="請再輸入一次密碼">
+          <input type="password" name="confirmPassword" id="confirmPassword" pattern="[a-zA-Z0-9]{8,12}" required
+            tabindex="3" placeholder="請再輸入一次密碼">
           <div class="form-title hidden-xs">暱稱</div>
           <input type="text" name="nickName" id="nickName" tabindex="4" placeholder="請在此輸入您的暱稱" required>
         </div>

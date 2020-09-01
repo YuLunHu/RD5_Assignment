@@ -25,7 +25,7 @@ if (isset($_POST["login"]))
     if ($row['userName'] == $UserName && $row['userPassword'] == $Password) { // 判斷帳號密碼是否正確
       $_SESSION['userName'] = $UserName; // 將使用者名稱存入session
       $_SESSION['nickName'] = $row['nickName'];
-      echo "<script> alert('登入成功，即將為您跳轉至首頁'); window.location='index.php' </script>";
+      echo "<script> alert('登入成功，即將為您跳轉至首頁'); window.location = 'index.php' </script>";
     }
   }
   else {
@@ -35,6 +35,7 @@ if (isset($_POST["login"]))
 
 ?>
 
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -81,8 +82,9 @@ if (isset($_POST["login"]))
       <form method="post" class="ng-pristine ng-valid">
         <div class="login-form clearfix">
           <div class="form-title hidden-xs">帳號</div>
-          <input type="text" name="userName" id="userName" tabindex="3" placeholder="請在此輸入帳號" autocomplete="on" required>
-          <div class="form-title hidden-xs">密碼 <a href="#">忘記密碼？</a></div>
+          <input type="text" name="userName" id="userName" tabindex="3" placeholder="請在此輸入帳號" autocomplete="on"
+            required>
+          <div class="form-title hidden-xs">密碼</div>
           <input type="password" name="userPassword" id="userPassword" tabindex="4" placeholder="請在此輸入密碼" required>
         </div>
         <?php if ($row['userName'] != $UserName || $row['userPassword'] != $Password) { ?>
@@ -92,7 +94,7 @@ if (isset($_POST["login"]))
       </form>
     </div>
   </div>
-  
+
   <div class="col-md-12 text-center">
     <h4>還不是會員嗎？<a class="link-center" href="register.php"><u>註冊新帳號</u></a></h4>
   </div>

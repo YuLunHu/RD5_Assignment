@@ -34,7 +34,3 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`tranID`), 
   FOREIGN KEY (`userID`) REFERENCES userAccountInfo(`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
-SELECT * FROM (SELECT * FROM `transaction` WHERE `userID` = 
-(SELECT `userID` FROM `userAccountInfo` WHERE `userName` = 'hank2222')) as T
-WHERE T.trsansTime BETWEEN '2020-08-31' AND '2020-08-31'
