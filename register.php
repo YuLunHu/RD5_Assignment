@@ -6,16 +6,6 @@ if (isset($_POST["register"]))
   $Password = $_POST["userPassword"];
   $confirmPassword = $_POST["confirmPassword"];
   $nickName = $_POST["nickName"];
-
-  // php端驗證資料格式是否正確 <-----------還沒改好
-  // $pattern = "[a-zA-Z0-9]{8,12}";
-  // echo strlen($UserName);
-  // if (preg_match_all($pattern, $UserName)) {
-  //   echo "符合";
-  // }
-  // else {
-  //   echo "不符合";
-  // }
   
   if ($Password == $confirmPassword) { // 檢查使用者輸入的兩次密碼是否相同
     $Password = password_hash($Password, PASSWORD_DEFAULT); // 密碼加密
