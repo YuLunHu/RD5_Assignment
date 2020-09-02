@@ -16,6 +16,7 @@ $result = mysqli_query($link, $sqlCommand);
 mysqli_close($link);
 $row = mysqli_fetch_assoc($result);
 $balance = $row['balance'];
+$formatBalance = number_format($balance,2,'.',','); // 千分位逗號分隔
 
 ?>
 
@@ -83,40 +84,40 @@ $balance = $row['balance'];
 
   <div style="margin: 30px 8px 20px 6px;border-top:1px dotted #C0C0C0;"></div>
   <h2 style="margin-left: 70px"> <?= $nickName ?> , 您的帳戶可用餘額為：</h2>
+
+
+  <div style="height: 60px">
+    <h2 style="text-align:center;display:none;" id="balance" name="balance" class="dollars"><?= $formatBalance ?></h2>
+    <img id="eye" name="eye" style="margin:auto;display:block;" src="img/core-img/coin_dollar.png" alt="">
+  </div>
   <div>
-    <h2 style="text-align:center;" id="balance" name="balance" class="dollars"><?= $balance ?></h2>
-    <div style="vertical-align:middle">
-    <p>目前餘額</p>
-    <img style="display:block; margin:auto;" src="img/core-img/logo.png" alt="">
+    <h3 style="text-align:center;">目前餘額
+    <img id="eyeClosed" name="eyeClosed" style="vertical-align:middle;" src="img/core-img/eye_closed.png" alt=""></h3>
   </div>
-  </div>
-  
+
 
   <script>
-  
-  let N = 0;
-  $(document).ready(function() { // 點按金額可以屏蔽或顯示 <------改到這裡
-    $("#balance").on('click', function() {
-      N++;
-      if (N % 2 == 1) {
-        $(this).removeClass("dollars");
-        $(this).addClass("hide");
-      }
-      else {
-        $(this).removeClass("hide");
-        $(this).addClass("dollars");
-      }
-    });
-  });
+    // 顯示餘額（預設為屏蔽）
+    $(document).ready(function () {
+      $("#eyeClosed").on('click', function () {
+        var x = document.getElementById("balance");
+        var y = document.getElementById("eye");
+        var z = document.getElementById("eyeClosed");
 
-  // function numberWithCommas(x) { // 將餘額以逗號分隔 <-------------------還沒接上去
-  //   var parts = x.toString().split(".");
-  //   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  //   return parts.join(".");
-  // }
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          y.style.display = "none";
+          z.src = "img/core-img/eye.png";
+        }
+        else {
+          x.style.display = "none";
+          y.style.display = "block";
+          z.src = "img/core-img/eye_closed.png";
+        }
+      });
+    });
 
   </script>
-
 
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/popper.min.js"></script>
