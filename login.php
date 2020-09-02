@@ -87,9 +87,10 @@ if (isset($_POST["login"]))
           <div class="form-title hidden-xs">密碼</div>
           <input type="password" name="userPassword" id="userPassword" tabindex="4" placeholder="請在此輸入密碼" required>
         </div>
-        <?php if ($row['userName'] != $UserName || $row['userPassword'] != $Password) { ?>
+        <?php if (isset($UserName) && isset($Password)) { ?>
+        <?php if (!($row['userName'] == $UserName) || !(password_verify($Password, $row['userPassword']))) { ?>
         <div style="color: red;">您輸入的帳號或密碼錯誤！</div>
-        <?php } ?>
+        <?php } }?>
         <button name="login" id="login" type="submit" class="plain-btn -login-btn" tabindex="5">登入</button>
       </form>
     </div>
