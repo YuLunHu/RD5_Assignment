@@ -19,9 +19,6 @@ CREATE TABLE IF NOT EXISTS `userAccountInfo` (
   PRIMARY KEY (`userID`, `userName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-INSERT INTO `userAccountInfo` (`userName`, `userPassword`, `nickName`) VALUES 
-("hank2222", "12345678", "yu-lun");
-
 CREATE TABLE IF NOT EXISTS `transaction` (
   `transID` tinyint(10) unsigned zerofill NOT NULL auto_increment,
   `userID` tinyint(4) unsigned zerofill NOT NULL,
