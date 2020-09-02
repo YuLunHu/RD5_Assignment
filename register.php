@@ -1,5 +1,11 @@
 <?php 
 
+session_start();
+if (isset($_SESSION["nickName"])) { // 判斷登入與否
+  echo "<script> alert('請先登出！'); window.location='index.php' </script>";
+	exit();
+}
+
 if (isset($_POST["register"]))
 {
   $UserName = (string) $_POST["userName"];
